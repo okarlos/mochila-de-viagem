@@ -23,6 +23,7 @@ form.addEventListener("submit", (event) => {
     if (exist) {
         thisItem.id = exist.id;
         updateElement(thisItem);
+        backpack[exist.id] = thisItem;
     }else {
         thisItem.id = backpack.length;
         createElement(thisItem);
