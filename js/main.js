@@ -1,79 +1,75 @@
-const form = document.getElementById("novoItem")
-const lista = document.getElementById("lista")
-const itens = JSON.parse(localStorage.getItem("itens")) || []
+const form = document.getElementById("novoItem");
+const ulList = document.getElementById("lista");
+const backpack = JSON.parse(localStorage.getItem("backpack")) || [];
 
-itens.forEach( (elemento) => {
-    criaElemento(elemento)
-} )
-
-form.addEventListener("submit", (evento) => {
-    evento.preventDefault()
-
-    const nome = evento.target.elements['nome']
-    const quantidade = evento.target.elements['quantidade']
-
-    const existe = itens.find( elemento => elemento.nome === nome.value )
-
-    const itemAtual = {
-        "nome": nome.value,
-        "quantidade": quantidade.value
-    }
-
-    if (existe) {
-        itemAtual.id = existe.id
-        
-        atualizaElemento(itemAtual)
-
-        itens[itens.findIndex(elemento => elemento.id === existe.id)] = itemAtual
-    } else {
-        itemAtual.id = itens[itens.length -1] ? (itens[itens.length-1]).id + 1 : 0;
-
-        criaElemento(itemAtual)
-
-        itens.push(itemAtual)
-    }
-
-    localStorage.setItem("itens", JSON.stringify(itens))
-
-    nome.value = ""
-    quantidade.value = ""
+backpack.forEach( (element) => {
+    createElement(element);
 })
 
-function criaElemento(item) {
-    const novoItem = document.createElement("li")
-    novoItem.classList.add("item")
 
-    const numeroItem = document.createElement("strong")
-    numeroItem.innerHTML = item.quantidade
-    numeroItem.dataset.id = item.id
-    novoItem.appendChild(numeroItem)
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = event.target.elements["nome"].value;
+    const quantity = event.target.elements["quantidade"].value;
     
-    novoItem.innerHTML += item.nome
+    const exist = backpack.find( element => element.name === nome.value );
 
-    novoItem.appendChild(botaoDeleta(item.id))
+    const thisItem = {
+        "name": name,
+        "quantity": quantity
+    }
 
-    lista.appendChild(novoItem)
+    if (exist) {
+        thisItem.id = exist.id;
+        updateElement(thisItem);
+        backpack[backpack.findIndex(elemento => elemento.id === exist.id)] = thisItem;
+    }else {
+        thisItem.id = backpack[backpack.length-1] ? (backpack[backpack.length-1]).id + 1 : 0;
+        createElement(thisItem);
+        backpack.push(thisItem);
+    }
+
+    localStorage.setItem("backpack", JSON.stringify(backpack));
+    form.reset();
+})
+
+function createElement(item) {
+    const li = document.createElement("li");
+
+    li.classList.add("item");
+    li.innerHTML += item.name;
+
+ 
+
+    const strong = document.createElement("strong");
+    li.appendChild(strong);
+    strong.innerHTML = item.quantity;
+    strong.dataset.id = item.id;
+    
+    ulList.appendChild(li);
+    li.appendChild(createRemoveButton(item.id));
 }
 
-function atualizaElemento(item) {
-    document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantidade
+function updateElement(item) {
+    document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantity;
 }
 
-function botaoDeleta(id) {
-    const elementoBotao = document.createElement("button")
-    elementoBotao.innerText = "X"
+function createRemoveButton (id) {
+    const removeButton = document.createElement("button");
+    removeButton.innerText = "X";
 
-    elementoBotao.addEventListener("click", function() {
-        deletaElemento(this.parentNode, id)
+    removeButton.addEventListener("click", function() {
+        removeElement(this.parentNode, id)
     })
 
-    return elementoBotao
+    return removeButton;
 }
 
-function deletaElemento(tag, id) {
-    tag.remove()
+function removeElement(element, id) {
+    element.remove();
 
-    itens.splice(itens.findIndex(elemento => elemento.id === id), 1)
+    backpack.splice(backpack.findIndex(elemento => elemento.id === id), 1);
 
-    localStorage.setItem("itens", JSON.stringify(itens))
+    localStorage.setItem("backpack", JSON.stringify(backpack));
 }
