@@ -11,7 +11,7 @@ Premissas do curso:
 
 Extras:
 ---
-* Atualizado o CSS, ajustando cores e incluíndo layout responsivo;
+* Atualizado o CSS, ajustando cores e incluindo layout responsivo;
 * Incluído botão para esvaziar a mochila, limpando a lista e o localStorage.
 
 **Site publicado:** https://okarlos.github.io/mochila-de-viagem/
