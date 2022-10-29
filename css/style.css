@@ -1,5 +1,5 @@
 html {
-    background: radial-gradient(farthest-corner at right top,#7f6e96, #261931);
+    background: #261931;
     height: 100%;
     font-family: 'Roboto', cursive;
 }
@@ -129,7 +129,7 @@ html {
     background: #dddddd98;
     border-radius: 10px;
     margin: 0 0 1em;
-    width: 100%;
+    /* width: 100%; */
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -148,3 +148,25 @@ html {
     font-weight: 400;
 }
 
+@media screen and (max-width: 768px) {
+    
+.conteudo, .principal {
+    flex-flow: column;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.lista {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    box-sizing: border-box;
+}
+
+.item {
+    width: 100%;
+}
+
+}
