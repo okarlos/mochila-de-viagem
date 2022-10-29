@@ -1,11 +1,17 @@
 const form = document.getElementById("novoItem");
 const ulList = document.getElementById("lista");
 const backpack = JSON.parse(localStorage.getItem("backpack")) || [];
+const clear = document.getElementById("limpar");
 
 backpack.forEach( (element) => {
     createElement(element);
 })
 
+clear.addEventListener("click", (element) => {
+    ulList.innerHTML = '';
+    localStorage.clear();
+    window.location.reload(true);
+})
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -23,7 +29,7 @@ form.addEventListener("submit", (event) => {
     if (exist) {
         thisItem.id = exist.id;
         updateElement(thisItem);
-        backpack[backpack.findIndex(elemento => elemento.id === exist.id)] = thisItem;
+        backpack[backpack.findIndex(element => element.id === exist.id)] = thisItem;
     }else {
         thisItem.id = backpack[backpack.length-1] ? (backpack[backpack.length-1]).id + 1 : 0;
         createElement(thisItem);
@@ -40,8 +46,6 @@ function createElement(item) {
     li.classList.add("item");
     li.innerHTML += item.name;
 
- 
-
     const strong = document.createElement("strong");
     li.appendChild(strong);
     strong.innerHTML = item.quantity;
@@ -55,11 +59,12 @@ function updateElement(item) {
     document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantity;
 }
 
-function createRemoveButton (id) {
+function createRemoveButton(id) {
     const removeButton = document.createElement("button");
     removeButton.innerText = "X";
 
     removeButton.addEventListener("click", function() {
+        console.log(this, this.parentNode)
         removeElement(this.parentNode, id)
     })
 
@@ -68,8 +73,6 @@ function createRemoveButton (id) {
 
 function removeElement(element, id) {
     element.remove();
-
-    backpack.splice(backpack.findIndex(elemento => elemento.id === id), 1);
-
+    backpack.splice(backpack.findIndex(element => element.id === id), 1);
     localStorage.setItem("backpack", JSON.stringify(backpack));
 }
